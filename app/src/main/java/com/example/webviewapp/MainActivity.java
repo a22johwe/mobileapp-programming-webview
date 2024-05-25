@@ -4,18 +4,23 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
 
+    WebView myWebView; // Create a WebView variable.
+
     public void showExternalWebPage(){
-        // TODO: Add your code for showing external web page here
+        myWebView.loadUrl("https://www.premierleague.com/"); // Load an URL into the WebView.
     }
 
     public void showInternalWebPage(){
-        // TODO: Add your code for showing internal web page here
+        myWebView.loadUrl("file:///android_asset/html/page.html"); // Load a website with a html-file.
     }
 
     @Override
@@ -24,6 +29,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Locate WebView element and attach a new WebViewClient to it.
+        myWebView = findViewById(R.id.my_webview);
+        myWebView.setWebViewClient(new WebViewClient());
+
+        // Change the settings in the myWebView instance to enable JavaScript.
+        WebSettings webSettings = myWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
 
         /*
         * Rename your App. Tip: Values->Strings
@@ -68,11 +81,13 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_external_web) {
             Log.d("==>","Will display external web page");
+            showExternalWebPage(); // Load external website.
             return true;
         }
 
         if (id == R.id.action_internal_web) {
             Log.d("==>","Will display internal web page");
+            showInternalWebPage(); // Load internal website on .
             return true;
         }
 
